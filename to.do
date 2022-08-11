@@ -100,7 +100,8 @@
  measures.  Or maybe something similar to White_Flame's
  suggestion (IIUC), like factoring out the change to A1 and
  keeping all depends(A1,_) and depends(_,A1) but separately
- determining all depends(A2\A1,_) and depends(_,A2\A1))
+ determining all depends(A2\A1,_) and depends(_,A2\A1), or
+ depends(A2,_)...)
 
 (maybe I could use SWIPL assertion IDs instead of md5 hashes of
  part or all of the h/2 fact)
@@ -108,3 +109,8 @@
 (another dubious approach would be to just look at the position
  of items in the files, which is unlikely to help since we often
  move entries around)
+
+(Another big thing to anticipate is when we get around to
+ assigning more semantics to predicates like completed(_), and
+ doing inference with them.  I.e. currentTask(Task) :-
+ not(completed(Task)). etc)
