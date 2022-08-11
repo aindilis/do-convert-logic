@@ -50,7 +50,7 @@
 
 (Where do we store the updateDirectly (and depends/2) facts?)
 
-(solution
+(answer
  (how to mark an entry deleted?  do we say:
   updateDirectly(false,h(A,B)) or updateDirectly(h(false,B1)
   ,h(A,B))?)
@@ -88,4 +88,11 @@
  but that would outsource the burden and create more time sinks.
  maybe I could have a necessary/1 operator that changes to
  possible/1 when a task is updated?  Lastly, maybe I could have a
- mechanism to assert relationNoLongHolds(depends(A,B)))
+ mechanism to assert relationNoLongerHolds(depends(A,B)).  Or
+ given that updating an entry is seldom done, I could just query
+ the user at do->prolog conversion time.  Or I could treat all
+ update/2 and updateDirectly/2 as
+ default/defeasible/nonmonotonic.)
+
+(maybe I could use SWIPL assertion IDs instead of md5 hashes of
+ part or all of the h/2 fact)
