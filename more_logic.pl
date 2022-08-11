@@ -23,3 +23,24 @@
 %% what happens if we move an entry between files?
 
 %% what about recurrent things like 'take out the trash'?
+
+%%%%
+
+%% how should we save files.
+
+%% should we save the first parse, and then incremental changes, i.e.
+
+%% $dir/home_andrewdo_to_do_1
+%% $dir/home_andrewdo_to_do_2
+%% $dir/home_andrewdo_to_do_3
+
+%% should we save them all in a git repo, and just checkout the
+%% various revisions as needed?
+
+%% how does this mesh with QLF?
+
+%% what about using Persistency:
+%% https://www.swi-prolog.org/pldoc/doc/_SWI_/library/persistency.pl
+
+%% or MySQL:
+%% https://github.com/aindilis/data-integration
