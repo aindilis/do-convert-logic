@@ -1,7 +1,7 @@
 # do-convert-logic
 Logic applied to to-do entries from do-todo-list-mode files converted to Prolog files.
 
-<!--
+```
 2022-08-10 10:10:33 <aindilis_> hey folks, I have a lot of to-do files with
       to-do items in a lisp-like syntax with balanced parentheses.  I've
       written something that converts that to Prolog.  So (completed (take out
@@ -35,5 +35,5 @@ Logic applied to to-do entries from do-todo-list-mode files converted to Prolog 
       revisions
 2022-08-10 10:20:40 <aindilis_> if anyone wants to collab on this todo system
       I can probably create a standalone version of it and upload to github.
-##prolog> 
--->
+##prolog>
+```
