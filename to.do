@@ -50,10 +50,13 @@
 
 (Where do we store the updateDirectly (and depends/2) facts?)
 
-(how to mark an entry deleted?
- do we say: updateDirectly(false,h(A,B)) or
- updateDirectly(h(false,B1),h(A,B))?
- )
+(solution
+ (how to mark an entry deleted?  do we say:
+  updateDirectly(false,h(A,B)) or updateDirectly(h(false,B1)
+  ,h(A,B))?)
+ (No because that would ruin history for h(false) .  Figure out
+  also what happens if there is not a unique history for a given
+  mostrecent.))
 
 (we should have predicates that take
  depends(hash(1DJSLFKJDLFJLKDKFLDF),hash(3URGJLGKDJGLGDLGKF)). ->
