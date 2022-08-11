@@ -92,7 +92,11 @@
  given that updating an entry is seldom done, I could just query
  the user at do->prolog conversion time.  Or I could treat all
  update/2 and updateDirectly/2 as
- default/defeasible/nonmonotonic.)
+ default/defeasible/nonmonotonic.  Perhaps recognizing textual
+ entailment (RTE) / natural language inference (NLI) could help,
+ by checking whether A2 -> A1 (or is it A2 -> A1, or both?),
+ where we have update(h(A1,_),h(A2,_)).  Or some combination of
+ of the above measures.)
 
 (maybe I could use SWIPL assertion IDs instead of md5 hashes of
  part or all of the h/2 fact)
