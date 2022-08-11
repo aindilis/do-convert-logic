@@ -65,7 +65,7 @@
 
 (look more at free-life-planner/projects/spse2-export)
 
-(the natural language in a given entry with naturally sometimes
+(the natural language in a given entry will naturally sometimes
  have context, for instance: the containing file or previous
  entries in the file)
 
@@ -73,3 +73,19 @@
  statements, i.e. (progn (completed (solution (a) (b))) (c) (d)),
  although look to our Perl/Tk script for annotating those:
  /var/lib/myfrdcsa/codebases/releases/do-0.1/do-0.1/scripts/loading-system.sh)
+
+(perhaps this issue that I'm trying to solve with
+ do-convert-logic exists because I'm not meant to link such
+ entries, because we could update an entry in such a way that it
+ would legitimately break the task dependencies.  For instance if
+ I said depends('take out trash','gather trash') and updated by
+ for instance negating either task argument, the dependency
+ wouldn't hold anymore.  I think automatically validating task
+ dependencies wouldn't be feasible at this point even with ML,
+ given that most task descriptions are underspecified.  Maybe I
+ could posit the question doesRelationStillHold(depends('take out
+ trash',not('gather trash')),TV), whenever an update takes place,
+ but that would outsource the burden and create more time sinks.
+ maybe I could have a necessary/1 operator that changes to
+ possible/1 when a task is updated?  Lastly, maybe I could have a
+ mechanism to assert relationNoLongHolds(depends(A,B)))
