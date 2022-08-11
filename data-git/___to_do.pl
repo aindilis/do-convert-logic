@@ -1,5 +1,5 @@
 hasSourceFile('../to.do').
-hasLastParsedTimeStamp('../to.do',[['-',['-',2022,08],11],[':',[':',08,45],24]]).
+hasLastParsedTimeStamp('../to.do',[['-',['-',2022,08],11],[':',[':',09,12],07]]).
 
 'now we want to go ahead and work on figuring out which of the four cases entries pertain to:'().
 .
@@ -17,3 +17,6 @@ hasLastParsedTimeStamp('../to.do',[['-',['-',2022,08],11],[':',[':',08,45],24]])
 'where do we store the updatedirectly'('and depends/2','facts?').
 solution('how to mark an entry deleted? do we say:'(sarray('a,b'),or,sarray('false,b1','a,b'),'?'),'no because that would ruin history for'(false,'. figure out also what happens if there is not a unique history for a given mostrecent.')).
 'we should have predicates that take'(sarray('1djslfkjdlfjlkdkfldf','3urgjlgkdjglgdlgkf'),'. ->','_SINGLEQUOTE_take out the trash and recyclables and returnables_SINGLEQUOTE_,_SINGLEQUOTE_gather the trash_SINGLEQUOTE_','.').
+'look more at free-life-planner/projects/spse2-export'().
+'the natural language in a given entry with naturally sometimes have context, for instance: the containing file or previous entries in the file'().
+'we haven_SINGLEQUOTE_t even begun to broach how to handle complex nested statements, i.e.'(progn(completed(solution(a,b)),c,d),', although look to our perl/tk script for annotating those: /var/lib/myfrdcsa/codebases/releases/do-0.1/do-0.1/scripts/loading-system.sh').

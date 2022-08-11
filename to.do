@@ -62,3 +62,14 @@
  depends(hash(1DJSLFKJDLFJLKDKFLDF),hash(3URGJLGKDJGLGDLGKF)). ->
  depends('take out the trash and recyclables and
  returnables','gather the trash').)
+
+(look more at free-life-planner/projects/spse2-export)
+
+(the natural language in a given entry with naturally sometimes
+ have context, for instance: the containing file or previous
+ entries in the file)
+
+(we haven't even begun to broach how to handle complex nested
+ statements, i.e. (progn (completed (solution (a) (b))) (c) (d)),
+ although look to our Perl/Tk script for annotating those:
+ /var/lib/myfrdcsa/codebases/releases/do-0.1/do-0.1/scripts/loading-system.sh)
