@@ -1,4 +1,4 @@
 #!/bin/bash
 
-swipl -s logic.pl -g test
+swipl -s logic.pl -g testDCL
 
