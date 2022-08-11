@@ -49,3 +49,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (Where do we store the updateDirectly (and depends/2) facts?)
+
+(how to mark an entry deleted?
+ do we say: updateDirectly(false,h(A,B)) or
+ updateDirectly(h(false,B1),h(A,B))?
+ )
+
+(we should have predicates that take
+ depends(hash(1DJSLFKJDLFJLKDKFLDF),hash(3URGJLGKDJGLGDLGKF)). ->
+ depends('take out the trash and recyclables and
+ returnables','gather the trash').)

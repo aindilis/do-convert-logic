@@ -1,5 +1,5 @@
 hasSourceFile('../to.do').
-hasLastParsedTimeStamp('../to.do',[['-',['-',2022,08],11],[':',[':',08,28],16]]).
+hasLastParsedTimeStamp('../to.do',[['-',['-',2022,08],11],[':',[':',08,41],52]]).
 
 'now we want to go ahead and work on figuring out which of the four cases entries pertain to:'().
 .
@@ -15,3 +15,5 @@ hasLastParsedTimeStamp('../to.do',[['-',['-',2022,08],11],[':',[':',08,28],16]])
 'what about using persistency: https://www.swi-prolog.org/pldoc/doc/_swi_/library/persistency.pl'().
 'or mysql?: https://github.com/aindilis/data-integration'().
 'where do we store the updatedirectly'('and depends/2','facts?').
+'how to mark an entry deleted? do we say:'(sarray('a,b'),or,sarray('false,b1','a,b'),'?').
+'we should have predicates that take'(sarray('1djslfkjdlfjlkdkfldf','3urgjlgkdjglgdlgkf'),'. ->','_SINGLEQUOTE_take out the trash and recyclables and returnables_SINGLEQUOTE_,_SINGLEQUOTE_gather the trash_SINGLEQUOTE_','.').
