@@ -113,4 +113,17 @@
 (Another big thing to anticipate is when we get around to
  assigning more semantics to predicates like completed(_), and
  doing inference with them.  I.e. currentTask(Task) :-
- not(completed(Task)). etc)
+ not(completed(Task)), not(postponed(Task)), etc.)
+
+(what happens if we copy an item to a different file, or even
+ make multiple such copies)
+
+(maybe some of this API is relevant:
+ (https://www.swi-prolog.org/pldoc/man?section=persistency))
+
+(completed
+ (in progress
+  (need to make a separate git repository for just these .pl
+   files, and have it commit to that repo.  Then use the git API)))
+
+(add some error handling stuff if parsecheck fails)

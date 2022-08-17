@@ -1,0 +1,19 @@
+#!/usr/bin/env perl
+
+use DoConvertLogic;
+
+use UniLang::Agent::Agent;
+use UniLang::Util::Message;
+
+$UNIVERSAL::agent = UniLang::Agent::Agent->new
+  (Name => "Do-Convert-Logic",
+   ReceiveHandler => \&Receive);
+$UNIVERSAL::doconvertlogic = DoConvertLogic->new();
+
+sub Receive {
+  my %args = @_;
+  $UNIVERSAL::doconvertlogic->ProcessMessage
+    (Message => $args{Message});
+}
+
+$UNIVERSAL::doconvertlogic->Execute();

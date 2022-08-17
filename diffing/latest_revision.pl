@@ -1,0 +1,2 @@
+:- module(latest_revision,[]).
+
