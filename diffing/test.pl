@@ -6,6 +6,8 @@
 
 :- use_module(library(git)).
 
+doConvertLogicGitRepoDir('/var/lib/myfrdcsa/codebases/minor/do-convert/data/do-convert-git/').
+
 %% get the git versions of that file
 computeMetadataForFile(OriginalFileName) :-
 	getGitShortLogForOriginalFileName(OriginalFileName,PrologFileName,ShortLog),
@@ -14,15 +16,26 @@ computeMetadataForFile(OriginalFileName) :-
 	fail.
 computeMetadataForFile(_OriginalFileName).
 
-	%% getPrologContentsForPrologFileNameAndRevision(
-	%% print_term([shortLog,ShortLog],[]).
-
 getGitShortLogForOriginalFileName(OriginalFileName,PrologFileName,ShortLog) :-
 	convertOriginalToPrologFileName(OriginalFileName,PrologFileName),
 	view([prologFileName,PrologFileName]),
-	git_shortlog('/var/lib/myfrdcsa/codebases/minor/do-convert/data/do-convert-git/results/', ShortLog, [limit(10),git_path(PrologFileName)]).
-
+	doConvertLogicGitRepoDir(GitRepoDir),
+	git_shortlog(GitRepoDir, ShortLog, [limit(10),git_path(PrologFileName)]).
 
 convertOriginalToPrologFileName(OriginalFileName,PrologFileName) :-
 	regex_replace(OriginalFileName,'[^0-9A-Za-z]','_',[],TmpPrologFileName),
-	atomic_list_concat([TmpPrologFileName,'pl'],'.',PrologFileName).
+	atomic_list_concat(['results/',TmpPrologFileName,'.pl'],'',PrologFileName).
+
+delete_last(X,Y):-
+	reverse(X,[_|X1]), reverse(X1,Y).
+
+getPrologContentsForPrologFileNameAndRevision(OriginalFileName,Revision) :-
+	convertOriginalToPrologFileName(OriginalFileName,PrologFileName),
+	doConvertLogicGitRepoDir(GitRepoDir),
+	view([git_open_file(GitRepoDir,PrologFileName,master,Stream)]),
+	git_open_file(GitRepoDir,PrologFileName,master,Stream),
+	read_stream_to_codes(Stream,Codes,_X),
+	close(Stream),
+	delete_last(Codes,NewCodes),
+	atom_codes(A,NewCodes),
+	view([a,A]).
