@@ -65,17 +65,6 @@ getAssertionsFromFileContentsAsAtom(Contents,Assertions) :-
 	contents:get_contents(Assertions),
 	print_term(Assertions,[]),nl.	
 
-getPrologContentsForPrologFileNameAndRevisionMaster(OriginalFileName,Revision,Contents) :-
-	convertOriginalToPrologFileName(OriginalFileName,PrologFileName),
-	doConvertLogicGitRepoDir(GitRepoDir),
-	view([git_open_file(GitRepoDir,PrologFileName,master,Stream)]),nl,
-	git_open_file(GitRepoDir,PrologFileName,master,Stream),
-	read_stream_to_codes(Stream,Codes,_X),
-	close(Stream),
-	delete_last_list_element(Codes,NewCodes),
-	atom_codes(Contents,NewCodes),
-	print_term(Contents,[]),nl.
-
 computeChangesToAssertions(AssertionsA,AssertionsB,Changes) :-
 	findall(Assertion,
 		(
