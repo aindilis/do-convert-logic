@@ -26,16 +26,31 @@ convertOriginalToPrologFileName(OriginalFileName,PrologFileName) :-
 	regex_replace(OriginalFileName,'[^0-9A-Za-z]','_',[],TmpPrologFileName),
 	atomic_list_concat(['results/',TmpPrologFileName,'.pl'],'',PrologFileName).
 
-delete_last(X,Y):-
+delete_last_list_element(X,Y):-
 	reverse(X,[_|X1]), reverse(X1,Y).
 
-getPrologContentsForPrologFileNameAndRevision(OriginalFileName,Revision) :-
+getPrologContentsForPrologFileNameAndRevision(OriginalFileName,Revision,Contents) :-
 	convertOriginalToPrologFileName(OriginalFileName,PrologFileName),
 	doConvertLogicGitRepoDir(GitRepoDir),
 	view([git_open_file(GitRepoDir,PrologFileName,master,Stream)]),
 	git_open_file(GitRepoDir,PrologFileName,master,Stream),
 	read_stream_to_codes(Stream,Codes,_X),
 	close(Stream),
-	delete_last(Codes,NewCodes),
-	atom_codes(A,NewCodes),
-	view([a,A]).
+	delete_last_list_element(Codes,NewCodes),
+	atom_codes(Contents,NewCodes),
+	view([contents,Contents]).
+
+getDiff :-
+	getPrologContentsForPrologFileNameAndRevision('/var/lib/myfrdcsa/collaborative/git/do-convert-logic/diffing/sample.do',0,Contents0),
+	getAssertionsFromFileContentsAsAtom(Contents0,Assertions0),
+	%% getPrologContentsForPrologFileNameAndRevision('/var/lib/myfrdcsa/collaborative/git/do-convert-logic/diffing/sample.do',1,Contents1),
+	%% getAssertionsFromFileContentsAsAtom(Contents1,Assertions1),
+	true.
+
+getAssertionsFromFileContentsAsAtom(Contents,Assertions) :-
+	read_data_from_file('header.pl',Header),
+	atomic_list_concat([Header,Contents],"\n\n",Data),
+	write_data_to_file(Data,'contents.pl'),
+	[contents],
+	contents:get_contents(AllAssertedKnowledge),
+	print_term(AllAssertedKnowledge,[]).	
