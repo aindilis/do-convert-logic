@@ -12,7 +12,7 @@ doConvertLogicGitRepoDir('/var/lib/myfrdcsa/codebases/minor/do-convert/data/do-c
 computeMetadataForFile(OriginalFileName,Revision) :-
 	getGitShortLogForOriginalFileName(OriginalFileName,PrologFileName,ShortLog),
 	member(git_log(Revision,_,_,_,_,TimeStamp,_,_),ShortLog),
-	print_term([revision,Revision],[]),nl.
+	print_term([revision,Revision,timeStamp,TimeStamp],[]),nl.
 
 getGitShortLogForOriginalFileName(OriginalFileName,PrologFileName,ShortLog) :-
 	convertOriginalToPrologFileName(OriginalFileName,PrologFileName),
@@ -29,8 +29,8 @@ delete_last_list_element(X,Y):-
 
 get_last_two_list_elements(X,Y,[A,B]):-
 	reverse(X,[A,B|X1]), reverse(X1,Y).
-get_last_two_list_elements(X,Y,[A,B]):-
-	reverse(X,[A,B]), Y = [].
+
+get_first_two_list_elements([A,B|Y],Y,[A,B]).
 
 getPrologContentsForPrologFileNameAndRevision(OriginalFileName,Revision,Contents) :-
 	convertOriginalToPrologFileName(OriginalFileName,PrologFileName),
@@ -46,7 +46,7 @@ getPrologContentsForPrologFileNameAndRevision(OriginalFileName,Revision,Contents
 getDiff(OriginalFileName,Changes) :-
 	findall(Revision,computeMetadataForFile(OriginalFileName,Revision),Revisions),
 	view([revisions,Revisions]),nl,
-	get_last_two_list_elements(Revisions,_Rest,[RevisionA,RevisionB]),
+	get_first_two_list_elements(Revisions,_Rest,[RevisionA,RevisionB]),
 	view([revisionA,RevisionA,revisionB,RevisionB]),nl,
 	getPrologContentsForPrologFileNameAndRevision(OriginalFileName,RevisionA,ContentsA),
 	getAssertionsFromFileContentsAsAtom(ContentsA,AssertionsA),
