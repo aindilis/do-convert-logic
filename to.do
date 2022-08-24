@@ -1,3 +1,18 @@
+(okay, so I have the basic infrastructure working, but what I
+ have to do is to
+ (get it to do the storage and diffing (e.g. contents.pl) in a
+  different non-git dir)
+ (write an intelligent auto-save-hook for only processing test
+  .do files, so we don't accidentally release unredacted private
+  info)
+ (record the assertions in a separate metadatafile and then
+  reason using updates.pl, possibly use qlf-persistence as
+  implemented in FLP, include those source files?  but first,
+  just generate the assertions)
+ (deal with movements between files)
+ (all the other stuff in this to.do)
+ )
+
 (now we want to go ahead and work on figuring out which of the
  four cases entries pertain to:)
 

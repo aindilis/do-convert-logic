@@ -6,7 +6,7 @@
 
 :- use_module(library(git)).
 
-doConvertLogicGitRepoDir('/var/lib/myfrdcsa/codebases/minor/do-convert/data/do-convert-git/').
+doConvertLogicGitRepoDir('/var/lib/myfrdcsa/codebases/minor/do-convert/data/do-convert-git/results/').
 
 %% get the git versions of that file
 computeMetadataForFile(OriginalFileName,Revision) :-
@@ -22,7 +22,7 @@ getGitShortLogForOriginalFileName(OriginalFileName,PrologFileName,ShortLog) :-
 
 convertOriginalToPrologFileName(OriginalFileName,PrologFileName) :-
 	regex_replace(OriginalFileName,'[^0-9A-Za-z]','_',[],TmpPrologFileName),
-	atomic_list_concat(['results/',TmpPrologFileName,'.pl'],'',PrologFileName).
+	atomic_list_concat([TmpPrologFileName,'.pl'],'',PrologFileName).
 
 delete_last_list_element(X,Y):-
 	reverse(X,[_|X1]), reverse(X1,Y).

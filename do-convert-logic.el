@@ -8,14 +8,16 @@
  ""
  (interactive)
  (if (derived-mode-p 'do-todo-list-mode)
-  (let ((chased-file (kmax-chase (buffer-file-name))))
+  (let* ((buffer-name (buffer-file-name))
+	 (chased-file (kmax-chase buffer-name)))
    (if (or
 	(kmax-string-match-p "\.do$" chased-file)
 	(kmax-string-match-p "\.notes$" chased-file))
     (if do-convert-check-parses
-     (do-convert-logic-async-parsecheck-and-convert-to-prolog-and-git-commit chased-file))))))
-
-;; (add-hook 'after-save-hook 'do-convert-after-save-hook)
+     (if (do-convert-approve-release buffer-name chased-file)
+      (do-convert-logic-async-parsecheck-and-convert-to-prolog-and-git-commit chased-file)))))))
+ 
+(add-hook 'after-save-hook 'do-convert-after-save-hook)
 ;; (remove-hook 'after-save-hook 'do-convert-after-save-hook)
 
 (defun do-convert-logic-async-parsecheck-and-convert-to-prolog-and-git-commit (chased-file)
