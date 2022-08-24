@@ -1,3 +1,3 @@
 #!/bin/bash
 
-swipl -s test.pl -g "computeMetadataForFile('/var/lib/myfrdcsa/collaborative/git/do-convert-logic/diffing/sample.do'),halt"
+swipl -s logic3.pl -g "computeMetadataForFile('/var/lib/myfrdcsa/collaborative/git/do-convert-logic/diffing/sample.do'),halt"

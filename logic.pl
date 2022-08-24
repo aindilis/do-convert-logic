@@ -1,6 +1,6 @@
 :- use_module(library(crypto)).
 
-:- consult('/var/lib/myfrdcsa/codebases/minor/free-life-planner/lib/util/util.pl').
+:- ensure_loaded('/var/lib/myfrdcsa/codebases/minor/free-life-planner/lib/util/util.pl').
 
 %% FACTS
 

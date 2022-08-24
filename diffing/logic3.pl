@@ -43,8 +43,7 @@ getPrologContentsForPrologFileNameAndRevision(OriginalFileName,Revision,Contents
 	atom_codes(Contents,NewCodes),
 	view([contents,Contents]).
 
-getDiff :-
-	OriginalFileName = '/var/lib/myfrdcsa/collaborative/git/do-convert-logic/diffing/sample.do',
+getDiff(OriginalFileName,Changes) :-
 	findall(Revision,computeMetadataForFile(OriginalFileName,Revision),Revisions),
 	view([revisions,Revisions]),nl,
 	get_last_two_list_elements(Revisions,_Rest,[RevisionA,RevisionB]),
@@ -58,10 +57,10 @@ getDiff :-
 	view([changes,Changes]),nl.
 
 getAssertionsFromFileContentsAsAtom(Contents,Assertions) :-
-	read_data_from_file('header.pl',Header),
+	read_data_from_file('/var/lib/myfrdcsa/collaborative/git/do-convert-logic/diffing/header.pl',Header),
 	atomic_list_concat([Header,Contents],"\n\n",Data),
-	write_data_to_file(Data,'contents.pl'),
-	[contents],
+	write_data_to_file(Data,'/var/lib/myfrdcsa/collaborative/git/do-convert-logic/diffing/contents.pl'),
+	['/var/lib/myfrdcsa/collaborative/git/do-convert-logic/diffing/contents'],
 	contents:get_contents(Assertions),
 	print_term(Assertions,[]),nl.	
 
