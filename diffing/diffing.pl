@@ -53,7 +53,7 @@ getDiff(OriginalFileName,Changes) :-
 	getPrologContentsForPrologFileNameAndRevision(OriginalFileName,RevisionB,ContentsB),
 	getAssertionsFromFileContentsAsAtom(ContentsB,AssertionsB),
 	view([assertionsA,AssertionsA,assertionsB,AssertionsB]),nl,
-	computeChangesToAssertions(AssertionsA,AssertionsB,Changes),
+	computeChangesToAssertions(RevisionA,AssertionsA,RevisionB,AssertionsB,Changes),
 	view([changes,Changes]),nl.
 
 getAssertionsFromFileContentsAsAtom(Contents,Assertions) :-
@@ -64,7 +64,7 @@ getAssertionsFromFileContentsAsAtom(Contents,Assertions) :-
 	contents:get_contents(Assertions),
 	print_term(Assertions,[]),nl.	
 
-computeChangesToAssertions(AssertionsA,AssertionsB,Changes) :-
+computeChangesToAssertions(RevisionA,AssertionsA,RevisionB,AssertionsB,Changes) :-
 	findall(Assertion,
 		(
 		 member(Assertion,AssertionsA),member(Assertion,AssertionsB)
@@ -80,4 +80,4 @@ computeChangesToAssertions(AssertionsA,AssertionsB,Changes) :-
 		 member(Assertion,AssertionsB),not(member(Assertion,AssertionsA))
 		),
 		BLessA),
-	Changes = [same(Same),aLessB(ALessB),bLessA(BLessA)].
+	Changes = [same(Same),aLessB(ALessB),bLessA(BLessA),revisionA(RevisionA),revisionB(RevisionB)].
