@@ -1,8 +1,8 @@
 :- ensure_loaded('/var/lib/myfrdcsa/codebases/minor/interactive-execution-monitor/frdcsa/sys/flp/autoload/args.pl').
 :- ensure_loaded('/var/lib/myfrdcsa/codebases/minor/free-life-planner/lib/util/util.pl').
 
-:- ensure_loaded('/var/lib/myfrdcsa/collaborative/git/do-convert-logic/logic.pl').
-:- ensure_loaded('/var/lib/myfrdcsa/collaborative/git/do-convert-logic/diffing/logic3.pl').
+:- ensure_loaded('/var/lib/myfrdcsa/collaborative/git/do-convert-logic/updates.pl').
+:- ensure_loaded('/var/lib/myfrdcsa/collaborative/git/do-convert-logic/diffing/diffing.pl').
 :- ensure_loaded('/var/lib/myfrdcsa/collaborative/git/do-convert-logic/isub.pl').
 
 %% call this on the file you are saving

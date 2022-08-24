@@ -1,2 +1,0 @@
-:- module(prior_revision,[]).
-
