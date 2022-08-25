@@ -36,10 +36,10 @@ get_contents(AllAssertedKnowledge) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 hasSourceFile('/var/lib/myfrdcsa/collaborative/git/do-convert-logic/sample-to-dos/sample.do').
-hasLastParsedTimeStamp('/var/lib/myfrdcsa/collaborative/git/do-convert-logic/sample-to-dos/sample.do',[['-',['-',2022,08],24],[':',[':',11,22],23]]).
+hasLastParsedTimeStamp('/var/lib/myfrdcsa/collaborative/git/do-convert-logic/sample-to-dos/sample.do',[['-',['-',2022,08],25],[':',[':',09,17],02]]).
 
 'this is a test'().
 'this is another test'().
-'this is a new test'().
+'this is a more different test'().
 'test again'().
-'a newer item'().
+'a newest item'().

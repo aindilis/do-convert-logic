@@ -77,7 +77,7 @@ match_nearest_individual_entries(Search,Entries,FinalResults) :-
 		 member(Item,Items),
 		 not(var(Item)),
 		 isub(Item,Search,false,Distance),
-		 Distance > 0.85,
+		 Distance > 0.5,
 		 view([matchingItem,Item])
 		),
 		Results),

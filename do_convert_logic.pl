@@ -4,14 +4,15 @@
 :- ensure_loaded('/var/lib/myfrdcsa/collaborative/git/do-convert-logic/updates.pl').
 :- ensure_loaded('/var/lib/myfrdcsa/collaborative/git/do-convert-logic/diffing/diffing.pl').
 :- ensure_loaded('/var/lib/myfrdcsa/collaborative/git/do-convert-logic/isub.pl').
+:- ensure_loaded('/var/lib/myfrdcsa/collaborative/git/do-convert-logic/do_convert_logic_qlf_save.pl').
 
 :- multifile h/2, updateDirectly/2, update/2.
 :- dynamic h/2, updateDirectly/2, update/2.
 
 %% call this on the file you are saving
 
-processFile(File) :-
-	getDiff(File,Changes),
+processFile(OriginalFileName) :-
+	getDiff(OriginalFileName,Changes),
 	argt(Changes,revisionA(RevisionA)),
 	argt(Changes,aLessB(ALessB)),
 	findall(Assertion,(member(Assertion,ALessB),not(Assertion =.. [hasLastParsedTimeStamp|_])),ALessBCleaned),
@@ -29,9 +30,10 @@ processFile(File) :-
 		OurResults),
 	
 	print_term([ourResults,OurResults],[]),nl,
-	updateMetadata([ourResults(OurResults)]).
+	updateMetadata([ourResults(OurResults),originalFileName(OriginalFileName)]).
 
 updateMetadata(Arguments) :-
+	argt(Arguments,originalFileName(OriginalFileName)),
 	argt(Arguments,ourResults(OurResults)),
 	foreach(member([EntryA,EntryB],OurResults),
 		(   
@@ -39,6 +41,6 @@ updateMetadata(Arguments) :-
 		    foreach(member(Assertion,Assertions),
 			    (
 			     print_term(Assertion,[]),nl,
-			     ensureAsserted(Assertion)
+			     doConvertEnsureAsserted(Assertion,OriginalFileName)
 			    ))
 		)).

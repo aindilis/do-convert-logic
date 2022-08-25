@@ -1,3 +1,7 @@
+(have to make this more efficient, it uses a naive n^2 algorithm
+ for detecting changes, pretty sure can speed that up with a hash
+ table)
+
 (okay, so I have the basic infrastructure working, but what I
  have to do is to
  (get it to do the storage and diffing (e.g. contents.pl) in a
