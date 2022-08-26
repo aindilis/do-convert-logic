@@ -3,6 +3,8 @@
 
 :- module('contents',[get_contents/1]).
 
+:- style_check(-discontiguous).
+
 list_modules :-
 	findall(
 		M,

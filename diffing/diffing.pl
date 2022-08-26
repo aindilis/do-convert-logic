@@ -2,7 +2,7 @@
 
 %% https://www.swi-prolog.org/pldoc/doc/_SWI_/library/git.pl
 
-:- consult('/var/lib/myfrdcsa/codebases/minor/free-life-planner/lib/util/util.pl').
+:- ensure_loaded('/var/lib/myfrdcsa/codebases/minor/free-life-planner/lib/util/util.pl').
 
 :- use_module(library(git)).
 
@@ -16,7 +16,7 @@ computeMetadataForFile(OriginalFileName,Revision) :-
 
 getGitShortLogForOriginalFileName(OriginalFileName,PrologFileName,ShortLog) :-
 	convertOriginalToPrologFileName(OriginalFileName,PrologFileName),
-	view([prologFileName,PrologFileName]),
+	viewIf([prologFileName,PrologFileName]),
 	doConvertLogicGitRepoDir(GitRepoDir),
 	git_shortlog(GitRepoDir, ShortLog, [limit(10),git_path(PrologFileName)]).
 
@@ -35,36 +35,57 @@ get_first_two_list_elements([A,B|Y],Y,[A,B]).
 getPrologContentsForPrologFileNameAndRevision(OriginalFileName,Revision,Contents) :-
 	convertOriginalToPrologFileName(OriginalFileName,PrologFileName),
 	doConvertLogicGitRepoDir(GitRepoDir),
-	view([git_open_file(GitRepoDir,PrologFileName,Revision,Stream)]),
+	viewIf([git_open_file(GitRepoDir,PrologFileName,Revision,Stream)]),
 	git_open_file(GitRepoDir,PrologFileName,Revision,Stream),
 	read_stream_to_codes(Stream,Codes,_X),
 	close(Stream),
 	delete_last_list_element(Codes,NewCodes),
 	atom_codes(Contents,NewCodes).
-	%% view([contents,Contents]).
+	%% viewIf([contents,Contents]).
 
 getDiff(OriginalFileName,Changes) :-
 	findall(Revision,computeMetadataForFile(OriginalFileName,Revision),Revisions),
-	view([revisions,Revisions]),nl,
+	viewIf([revisions,Revisions]),nl,
 	get_first_two_list_elements(Revisions,_Rest,[RevisionA,RevisionB]),
-	view([revisionA,RevisionA,revisionB,RevisionB]),nl,
+	viewIf([revisionA,RevisionA,revisionB,RevisionB]),nl,
 	getPrologContentsForPrologFileNameAndRevision(OriginalFileName,RevisionA,ContentsA),
 	getAssertionsFromFileContentsAsAtom(ContentsA,AssertionsA),
 	getPrologContentsForPrologFileNameAndRevision(OriginalFileName,RevisionB,ContentsB),
 	getAssertionsFromFileContentsAsAtom(ContentsB,AssertionsB),
-	view([assertionsA,AssertionsA,assertionsB,AssertionsB]),nl,
-	computeChangesToAssertions(RevisionA,AssertionsA,RevisionB,AssertionsB,Changes),
-	view([changes,Changes]),nl.
+	viewIf([assertionsA,AssertionsA,assertionsB,AssertionsB]),nl,
+	computeChangesToAssertions(RevisionA,AssertionsA,RevisionB,AssertionsB,Changes).
+	%% viewIf([changes,Changes]),nl.
 
 getAssertionsFromFileContentsAsAtom(Contents,Assertions) :-
+	getAssertionsFromFileContentsAsAtomFlattened(Contents,Assertions).
+
+getAssertionsFromFileContentsAsAtomOriginal(Contents,Assertions) :-
 	read_data_from_file('/var/lib/myfrdcsa/collaborative/git/do-convert-logic/diffing/header.pl',Header),
 	atomic_list_concat([Header,Contents],"\n\n",Data),
 	write_data_to_file(Data,'/var/lib/myfrdcsa/collaborative/git/do-convert-logic/do-convert-git/temp/contents.pl'),
 	['/var/lib/myfrdcsa/collaborative/git/do-convert-logic/do-convert-git/temp/contents'],
-	contents:get_contents(Assertions),
-	print_term(Assertions,[]),nl.	
+	contents:get_contents(Assertions).
+%% print_term(Assertions,[]),nl.	
+
+getAssertionsFromFileContentsAsAtomFlattened(Contents,Assertions) :-
+	read_data_from_file('/var/lib/myfrdcsa/collaborative/git/do-convert-logic/diffing/header.pl',Header),
+	atomic_list_concat([Header,Contents],"\n\n",Data),
+	write_data_to_file(Data,'/var/lib/myfrdcsa/collaborative/git/do-convert-logic/do-convert-git/temp/contents.pl'),
+	['/var/lib/myfrdcsa/collaborative/git/do-convert-logic/do-convert-git/temp/contents'],
+	contents:get_contents(Terms),
+	findall(Assertion,
+		(   
+		    member(Term,Terms),
+		    flatten_term(Term,FlattenedTermList),
+		    member(Assertion,FlattenedTermList)
+		),Assertions).
+%% print_term(Assertions,[]),nl.	
 
 computeChangesToAssertions(RevisionA,AssertionsA,RevisionB,AssertionsB,Changes) :-
+	computeChangesToAssertionsListOperations(RevisionA,AssertionsA,RevisionB,AssertionsB,Changes).
+
+computeChangesToAssertionsOriginal(RevisionA,AssertionsA,RevisionB,AssertionsB,Changes) :-
+	view([computeChangesToAssertionsOriginal]),
 	findall(Assertion,
 		(
 		 member(Assertion,AssertionsA),member(Assertion,AssertionsB)
@@ -80,4 +101,15 @@ computeChangesToAssertions(RevisionA,AssertionsA,RevisionB,AssertionsB,Changes) 
 		 member(Assertion,AssertionsB),not(member(Assertion,AssertionsA))
 		),
 		BLessA),
-	Changes = [same(Same),aLessB(ALessB),bLessA(BLessA),revisionA(RevisionA),revisionB(RevisionB)].
+	Changes = [same(Same),aLessB(ALessB),bLessA(BLessA),revisionA(RevisionA),revisionB(RevisionB)],
+	view([done(computeChangesToAssertionsOriginal)]).
+
+computeChangesToAssertionsListOperations(RevisionA,AssertionsA,RevisionB,AssertionsB,Changes) :-
+	view([computeChangesToAssertionsListOperations]),
+	intersection(AssertionsA,AssertionsB,Same),
+	view([a]),
+	subtract(AssertionsA,AssertionsB,ALessB),
+	view([b]),
+	subtract(AssertionsB,AssertionsA,BLessA),
+	Changes = [same(Same),aLessB(ALessB),bLessA(BLessA),revisionA(RevisionA),revisionB(RevisionB)],
+	view([done(computeChangesToAssertionsListOperations)]).

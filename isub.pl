@@ -78,10 +78,10 @@ match_nearest_individual_entries(Search,Entries,FinalResults) :-
 		 not(var(Item)),
 		 isub(Item,Search,false,Distance),
 		 Distance > 0.5,
-		 view([matchingItem,Item])
+		 viewIf([matchingItem,Item])
 		),
 		Results),
-	view([results,Results]),
+	viewIf([results,Results]),
 	predsort(nthcompare(2),Results,Sorted),
 	reverse(Sorted,ReverseSorted),
 	sublist(ReverseSorted,1,10,FinalResults),
@@ -108,7 +108,7 @@ try_flatten_term(Term,Flattened) :-
 my_get_all_instances_of_predicate_with_n_args(Results) :-
 	findall(MyTerm,(
 			current_predicate(entries:Predicate/N),
-			%% view([predicate,Predicate]),
+			%% viewIf([predicate,Predicate]),
 			%% \+ predicate_property(entries:P,imported_from(_)),
 			%% predicate_property(entries:P, number_of_clauses(_)),
 			length(X,N),

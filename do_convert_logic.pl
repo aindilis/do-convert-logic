@@ -1,3 +1,6 @@
+:- dynamic flpFlag/1.
+flpFlag(neg(debug)).
+
 :- ensure_loaded('/var/lib/myfrdcsa/codebases/minor/interactive-execution-monitor/frdcsa/sys/flp/autoload/args.pl').
 :- ensure_loaded('/var/lib/myfrdcsa/codebases/minor/free-life-planner/lib/util/util.pl').
 
@@ -17,12 +20,12 @@ processFile(OriginalFileName) :-
 	argt(Changes,aLessB(ALessB)),
 	%% findall(Assertion,(member(Assertion,ALessB),not(Assertion =.. [hasLastParsedTimeStamp|_])),ALessBCleaned),
 	findall(Assertion,(member(Assertion,ALessB),not(my_pred_args(Assertion,hasLastParsedTimeStamp,_))),ALessBCleaned),
-	view(ALessBCleaned),nl,
+	viewIf(ALessBCleaned),nl,
 	argt(Changes,revisionB(RevisionB)),
 	argt(Changes,bLessA(BLessA)),
 	%% findall(Assertion,(member(Assertion,BLessA),not(Assertion =.. [hasLastParsedTimeStamp|_])),BLessACleaned),
 	findall(Assertion,(member(Assertion,BLessA),not(my_pred_args(Assertion,hasLastParsedTimeStamp,_))),BLessACleaned),
-	view(BLessACleaned),nl,
+	viewIf(BLessACleaned),nl,
 
 	findall([h(AssertionA,RevisionA),h(AssertionB,RevisionB)],
 		(
@@ -31,7 +34,7 @@ processFile(OriginalFileName) :-
 		),
 		OurResults),
 	
-	print_term([ourResults,OurResults],[]),nl,
+	%% print_term([ourResults,OurResults],[]),nl,
 	updateMetadata([ourResults(OurResults),originalFileName(OriginalFileName)]).
 
 updateMetadata(Arguments) :-
@@ -42,7 +45,7 @@ updateMetadata(Arguments) :-
 		    Assertions = [EntryA,EntryB,updateDirectly(EntryB,EntryA)],
 		    foreach(member(Assertion,Assertions),
 			    (
-			     print_term(Assertion,[]),nl,
+			     %% print_term(Assertion,[]),nl,
 			     doConvertEnsureAsserted(Assertion,OriginalFileName)
 			    ))
 		)).
