@@ -39,9 +39,10 @@ getPrologContentsForPrologFileNameAndRevision(OriginalFileName,Revision,Contents
 	git_open_file(GitRepoDir,PrologFileName,Revision,Stream),
 	read_stream_to_codes(Stream,Codes,_X),
 	close(Stream),
+	viewIf([codes,Codes]),
 	delete_last_list_element(Codes,NewCodes),
-	atom_codes(Contents,NewCodes).
-	%% viewIf([contents,Contents]).
+	atom_codes(Contents,NewCodes),
+        viewIf([contents,Contents]),nl.
 
 getDiff(OriginalFileName,Changes) :-
 	findall(Revision,computeMetadataForFile(OriginalFileName,Revision),Revisions),
@@ -64,8 +65,8 @@ getAssertionsFromFileContentsAsAtomOriginal(Contents,Assertions) :-
 	atomic_list_concat([Header,Contents],"\n\n",Data),
 	write_data_to_file(Data,'/var/lib/myfrdcsa/collaborative/git/do-convert-logic/do-convert-git/temp/contents.pl'),
 	['/var/lib/myfrdcsa/collaborative/git/do-convert-logic/do-convert-git/temp/contents'],
-	contents:get_contents(Assertions).
-%% print_term(Assertions,[]),nl.	
+	contents:get_contents(Assertions),
+	viewIf([assertions,Assertions]),nl.
 
 getAssertionsFromFileContentsAsAtomFlattened(Contents,Assertions) :-
 	read_data_from_file('/var/lib/myfrdcsa/collaborative/git/do-convert-logic/diffing/header.pl',Header),
@@ -76,6 +77,7 @@ getAssertionsFromFileContentsAsAtomFlattened(Contents,Assertions) :-
 	findall(Assertion,
 		(   
 		    member(Term,Terms),
+		    not(my_pred_args(Term,hasLastParsedTimeStamp,_)),
 		    flatten_term(Term,FlattenedTermList),
 		    member(Assertion,FlattenedTermList)
 		),Assertions).
@@ -107,9 +109,10 @@ computeChangesToAssertionsOriginal(RevisionA,AssertionsA,RevisionB,AssertionsB,C
 computeChangesToAssertionsListOperations(RevisionA,AssertionsA,RevisionB,AssertionsB,Changes) :-
 	view([computeChangesToAssertionsListOperations]),
 	intersection(AssertionsA,AssertionsB,Same),
-	view([a]),
-	subtract(AssertionsA,AssertionsB,ALessB),
-	view([b]),
-	subtract(AssertionsB,AssertionsA,BLessA),
+	view([same]),
+	subtract(AssertionsA,Same,ALessB),
+	view([aLessB,ALessB]),
+	subtract(AssertionsB,Same,BLessA),
+	view([bLessA,BLessA]),
 	Changes = [same(Same),aLessB(ALessB),bLessA(BLessA),revisionA(RevisionA),revisionB(RevisionB)],
 	view([done(computeChangesToAssertionsListOperations)]).
