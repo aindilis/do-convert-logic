@@ -59,8 +59,8 @@ getDiff(OriginalFileName,Changes) :-
 getAssertionsFromFileContentsAsAtom(Contents,Assertions) :-
 	read_data_from_file('/var/lib/myfrdcsa/collaborative/git/do-convert-logic/diffing/header.pl',Header),
 	atomic_list_concat([Header,Contents],"\n\n",Data),
-	write_data_to_file(Data,'/var/lib/myfrdcsa/collaborative/git/do-convert-logic/diffing/contents.pl'),
-	['/var/lib/myfrdcsa/collaborative/git/do-convert-logic/diffing/contents'],
+	write_data_to_file(Data,'/var/lib/myfrdcsa/collaborative/git/do-convert-logic/do-convert-git/temp/contents.pl'),
+	['/var/lib/myfrdcsa/collaborative/git/do-convert-logic/do-convert-git/temp/contents'],
 	contents:get_contents(Assertions),
 	print_term(Assertions,[]),nl.	
 

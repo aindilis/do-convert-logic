@@ -1,3 +1,40 @@
+(get the depends/2 system going asap)
+
+(given this system is incomplete, especially to how it treats
+ complex assertions (i.e. assertions that are not simply atoms,
+ we are going to get frustrated at times when it acts
+ incorrectly.  Maybe we can take an ATP approach to all of this.
+ Maybe we can reverse engineer KBFS and/or IAEC from
+ DoConvertLogic))
+
+(is there any reason to use a hash instead of just the original
+ assertion?: yes, because if we change the original assertion
+ contents, we don't want the original assertion to confuse
+ things.  Note though we have to track in metadata
+ hashFn(h(<ASSERTION1>,<REVISION1>),<MD5SUM>) or
+ md5(<ASSERTION1>,<MD5SUM>). or something)
+
+(track file movement histories, for instance, when we move a .do
+ originalfilename, it's not necessarily going to move the
+ prologfilename for that file, so we have to assert in metadata:
+ mv(f(<NAME1>,<REVISION1>),f(<NAME2>,<REVISION2>)) or something)
+
+(we really need IAEC/KBFS etc working for this[=do-convert-logic]
+ to work properly)
+
+(there needs to be some kind of audit/integrity check process,
+ for when the system (metadata and data) get unsynced)
+
+(note, C-cdv. is not sorting properly
+ (couples time tonight)
+ [results,[['couples time',0.925],[couples,0.8555555555555556],['couples time tonight',1.0],[couples,0.8555555555555556]]]
+ )
+
+(start a new project for reasoning with complex assertions)
+
+(deal with more than just atoms, but also facts with (nested)
+ arguments)
+
 (have to make this more efficient, it uses a naive n^2 algorithm
  for detecting changes, pretty sure can speed that up with a hash
  table)
