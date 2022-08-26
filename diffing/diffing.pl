@@ -40,8 +40,8 @@ getPrologContentsForPrologFileNameAndRevision(OriginalFileName,Revision,Contents
 	read_stream_to_codes(Stream,Codes,_X),
 	close(Stream),
 	delete_last_list_element(Codes,NewCodes),
-	atom_codes(Contents,NewCodes),
-	view([contents,Contents]).
+	atom_codes(Contents,NewCodes).
+	%% view([contents,Contents]).
 
 getDiff(OriginalFileName,Changes) :-
 	findall(Revision,computeMetadataForFile(OriginalFileName,Revision),Revisions),

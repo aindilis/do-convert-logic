@@ -112,7 +112,8 @@ my_get_all_instances_of_predicate_with_n_args(Results) :-
 			%% \+ predicate_property(entries:P,imported_from(_)),
 			%% predicate_property(entries:P, number_of_clauses(_)),
 			length(X,N),
-			MyTerm =.. [Predicate|X],
+			%% MyTerm =.. [Predicate|X],
+			my_pred_args(MyTerm,Predicate,X),
 			clause(entries:MyTerm,true),
 			Term = MyTerm
 		       ),Results).
