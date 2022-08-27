@@ -4,9 +4,12 @@
 (global-set-key "\C-cdvoM" 'do-convert-open-metadata)
 
 
-(defun do-convert-after-save-hook ()
+(defvar do-convert-assert nil)
+
+(defun do-convert-after-save-hook (&optional assert)
  ""
  (interactive)
+ (setq do-convert-assert nil)
  (if (derived-mode-p 'do-todo-list-mode)
   (let* ((buffer-name (buffer-file-name))
 	 (chased-file (kmax-chase buffer-name)))
@@ -15,8 +18,12 @@
 	(kmax-string-match-p "\.notes$" chased-file))
     (if do-convert-check-parses
      (if (do-convert-approve-release buffer-name chased-file)
-      (do-convert-logic-async-parsecheck-and-convert-to-prolog-and-git-commit chased-file)))))))
- 
+      (progn
+       (do-convert-logic-async-parsecheck-and-convert-to-prolog-and-git-commit chased-file)
+       (setq do-convert-assert t)
+       ))))))
+ do-convert-assert)
+
 (add-hook 'after-save-hook 'do-convert-after-save-hook)
 ;; (remove-hook 'after-save-hook 'do-convert-after-save-hook)
 
@@ -74,6 +81,17 @@
  ""
  (interactive)
  (ffap "/var/lib/myfrdcsa/codebases/minor/do-convert/data/do-convert-git/metadata"))
+
+(defun do-todo-list-convert-to-prolog-and-view (&optional filename-arg)
+ ""
+ (interactive)
+ (assert (do-convert-after-save-hook) t "Conversion failed for some reason.")
+ (let* ((buffer-name (buffer-file-name))
+	(chased-file (kmax-chase buffer-name))
+	(prolog-file (replace-regexp-in-string "[^a-zA-Z0-9_]" "_" chased-file))
+	(file (concat "/var/lib/myfrdcsa/codebases/minor/do-convert/data/do-convert-git/results/" prolog-file ".pl"))
+	)
+  (ffap file)))
 
 (provide 'do-convert-logic)
 

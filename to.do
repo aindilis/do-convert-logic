@@ -35,9 +35,12 @@
 (deal with more than just atoms, but also facts with (nested)
  arguments)
 
-(have to make this more efficient, it uses a naive n^2 algorithm
- for detecting changes, pretty sure can speed that up with a hash
- table)
+(completed
+ (solution
+  (have to make this more efficient, it uses a naive n^2
+   algorithm for detecting changes, pretty sure can speed that up
+   with a hash table)
+  (used intersection/subtract)))
 
 (okay, so I have the basic infrastructure working, but what I
  have to do is to
@@ -68,14 +71,19 @@
  ;;   3) is it completely different from any previous entry?
  )
 
-(question, what happens when it reverts to a previous update?
- i.e. h('hi',a),h('ho',b),h('hi',c).)
+(related
+ (question, what happens when it reverts to a previous update?
+  i.e. h('hi',a),h('ho',b),h('hi',c).)
+ (FIXME: we want to be sure that it only enumerates the latest
+  version of an entry when searching for similar ones))
 
 (what does the B in h(A,B) correspond to if we don't have
  revisions?  would it be last modified times?)
 
 (what happens if we move or delete a file, or something to do
  with symlinks or hardlinks?)
+
+(FIXME: what happens if we add an entry?)
 
 (what happens if we move an entry between files?)
 
