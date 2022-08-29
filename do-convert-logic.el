@@ -2,11 +2,12 @@
 
 (global-set-key "\C-cdvoP" 'do-convert-open-results)
 (global-set-key "\C-cdvoM" 'do-convert-open-metadata)
-
+(global-set-key "\C-cdpp" 'do-todo-list-convert-to-prolog-and-view)
+(global-set-key "\C-cdpu" 'do-todo-list-update-metadata-for-file)
 
 (defvar do-convert-assert nil)
 
-(defun do-convert-after-save-hook (&optional assert)
+(defun do-convert-after-save-hook (&optional override)
  ""
  (interactive)
  (setq do-convert-assert nil)
@@ -17,7 +18,10 @@
 	(kmax-string-match-p "\.do$" chased-file)
 	(kmax-string-match-p "\.notes$" chased-file))
     (if do-convert-check-parses
-     (if (do-convert-approve-release buffer-name chased-file)
+     (if
+      (or
+       (non-nil override)
+       (do-convert-approve-release buffer-name chased-file))
       (progn
        (do-convert-logic-async-parsecheck-and-convert-to-prolog-and-git-commit chased-file)
        (setq do-convert-assert t)
@@ -82,15 +86,28 @@
  (interactive)
  (ffap "/var/lib/myfrdcsa/codebases/minor/do-convert/data/do-convert-git/metadata"))
 
-(defun do-todo-list-convert-to-prolog-and-view (&optional filename-arg)
+(defun do-todo-list-convert-to-prolog-and-view (&optional arg)
  ""
- (interactive)
- (assert (do-convert-after-save-hook) t "Conversion failed for some reason.")
+ (interactive "P")
+ (assert (do-convert-after-save-hook arg) t "Conversion failed for some reason.")
  (let* ((buffer-name (buffer-file-name))
 	(chased-file (kmax-chase buffer-name))
 	(prolog-file (replace-regexp-in-string "[^a-zA-Z0-9_]" "_" chased-file))
 	(file (concat "/var/lib/myfrdcsa/codebases/minor/do-convert/data/do-convert-git/results/" prolog-file ".pl"))
 	)
+  (ffap file)))
+
+(defun do-todo-list-update-metadata-for-file (&optional arg)
+ ""
+ (interactive "P")
+ (assert (do-convert-after-save-hook arg) t "Conversion failed for some reason.")
+ (let* ((buffer-name (buffer-file-name))
+	(chased-file (kmax-chase buffer-name))
+	(prolog-file (replace-regexp-in-string "[^a-zA-Z0-9_]" "_" chased-file))
+	(file (concat "/var/lib/myfrdcsa/codebases/minor/do-convert/data/do-convert-git/metadata/" prolog-file ".pl"))
+	(command (concat "/var/lib/myfrdcsa/codebases/minor/do-convert-logic/scripts/update-metadata.sh " (shell-quote-argument buffer-name))))
+  (see command)
+  (see (shell-command-to-string command))
   (ffap file)))
 
 (provide 'do-convert-logic)

@@ -1,3 +1,9 @@
+(we already have depends/2 with actual entries, not pse-entry-s
+ though)
+
+(how do we deal with multiple similar or same copies of a
+ .(do|notes) file?)
+
 (get the depends/2 system going asap)
 
 (given this system is incomplete, especially to how it treats
