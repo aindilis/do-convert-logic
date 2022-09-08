@@ -40,6 +40,10 @@ getHistoryForEntry(Entry,History) :-
 	append(TmpBackwardsHistory,[Entry],TmpBackwardsFullHistory),
 	reverse(TmpBackwardsFullHistory,History).
 
+getOrigin(Entry,OriginEntry) :-
+	getHistoryForEntry(Entry,History),
+	reverse(History,[OriginEntry|_]).
+
 getHistories(Histories) :-
 	getMostRecents(MostRecents),
 	findall(History,
@@ -58,6 +62,16 @@ writeHistories :-
 	getHistories(Histories),
 	write_list(Histories).
 
+writeOrigins :-
+	writeln('Origins'),
+	getMostRecents(MostRecents),
+	forall(member(mostRecent(MostRecent,Hash),MostRecents),
+	       (
+		getOrigin(MostRecent,Origin),
+		tab(4),writeln([MostRecent,Origin])
+	       )).
+
 testDCL :-
 	writeMostRecents,nl,
+	writeOrigins,nl,
 	writeHistories.

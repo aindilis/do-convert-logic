@@ -105,7 +105,7 @@
 	(chased-file (kmax-chase buffer-name))
 	(prolog-file (replace-regexp-in-string "[^a-zA-Z0-9_]" "_" chased-file))
 	(file (concat "/var/lib/myfrdcsa/codebases/minor/do-convert/data/do-convert-git/metadata/" prolog-file ".pl"))
-	(command (concat "/var/lib/myfrdcsa/codebases/minor/do-convert-logic/scripts/update-metadata.sh " (shell-quote-argument buffer-name))))
+	(command (concat "/var/lib/myfrdcsa/codebases/minor/do-convert-logic/scripts/update-metadata.sh " (shell-quote-argument chased-file))))
   (see command)
   (see (shell-command-to-string command))
   (ffap file)))

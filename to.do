@@ -1,3 +1,85 @@
+(need to find-or-create the predicate that finds the origin text
+ for a given text)
+
+(need to make 'make' work with do-convert)
+
+(need to have do-convert-logic load with or something do-convert)
+
+(need to have something that when I select an entry with 'C-cdv.'
+ it goes ahead and adds 'has-NL'('entry-fn'(do,<ID>),<TEXT>) to a
+ metadata file somewhere, where Text is the origin text for
+ whatever was selected by 'C-cdv.')
+
+(("frdcsa-context-type" "SPSE")
+ ("depends" ("entry-fn" "pse" <N>) ("entry-fn" "pse" <P>))
+ ("has-source" ("entry-fn" "pse" <N>) ("entry-fn" "sayer-index" <M>))
+ ("goal" ("entry-fn" "pse" <N>))
+ ("asserter" ("entry-fn" "pse" <N>) <TEXT1>)
+ ("has-NL" ("entry-fn" "pse" <N>) <TEXT2>)
+ )
+
+(so like
+ ;; 'has-NL'('entry-fn'(do,'JD2385DFKSFHF902GFHJEFDIFEWJ'),'do this via making an update of our locate-all data')
+
+ (depends (entry-fn do <ID1>) (entry-fn do <ID2>))
+
+ ("depends" ("entry-fn" "do" var-ID1) ("entry-fn" "do" var-ID2))
+
+ ;; 'depends'('entry-fn'(do,ID1),'entry-fn'(do,ID2)).
+
+ ;; 'has-NL'('entry-fn'(do,MD5),Text) :-
+ ;; 	entry(Text),
+ ;; 	md5sum(Text,MD5).
+
+ ;; updateNLEntries :-
+ ;; 	entry(Text),
+ ;; 	md5sum(Text,MD5),
+ ;;     ensureAsserted('has-NL'('entry-fn'(do,MD5),Text)),
+ ;;     fail.
+ ;; updateNLEntries.
+
+ ;; updateNLEntries :-
+ ;; 	forall(entry(Text),
+ ;; 	       (   
+ ;; 		   md5sum(Text,MD5),
+ ;; 		   ensureAsserted('has-NL'('entry-fn'(do,MD5),Text))
+ ;; 	       )).
+
+ ;; updateNLEntries :-
+ ;; 	forall(entry(Text),
+ ;; 	       (   
+ ;; 		   not('has-NL'('entry-fn'(do,_MD5),Text)) ->
+ ;; 		   (   
+ ;; 		       md5sum(Text,MD5),
+ ;; 		       ensureAsserted('has-NL'('entry-fn'(do,_MD5),Text))
+ ;; 		   ) ;
+ ;; 		   true
+ ;; 	       )).
+
+ ;; ;; although really what we want is only to generate MD5 sums for
+ ;; ;; entries that have been (do-convert-get-id-for-entry-at-point)
+ ;; ;; C-cdv. or something, and to record those
+
+ )
+
+((frdcsa-context-type SPSE)
+ (depends (entry-fn pse <N>) (entry-fn pse <P>))
+ (has-source (entry-fn pse <N>) (entry-fn sayer-index <M>))
+ (goal (entry-fn pse <N>))
+ (asserter (entry-fn pse <N>) <TEXT1>)
+ (has-NL (entry-fn pse <N>) <TEXT2>)
+ )
+
+(record via a fact that a given metadata computation step between
+ two adjacent git revisions has been completed, and possibly,
+ what they were.)
+
+(fix the prolog compilation errors like -
+ (ERROR: /var/lib/myfrdcsa/codebases/minor/do-convert/data/do-convert-git/temp/contents.pl:191:353: Syntax error: Operator expected
+  ERROR: /var/lib/myfrdcsa/codebases/minor/do-convert/data/do-convert-git/temp/contents.pl:358:82: Syntax error: Illegal start of term))
+
+(fix h(h('',''),bfaf455fd2f81dd2e4566ebf370d1acd63d7a0b2) bug)
+
 (we already have depends/2 with actual entries, not pse-entry-s
  though)
 
@@ -8,10 +90,10 @@
 
 (given this system is incomplete, especially to how it treats
  complex assertions (i.e. assertions that are not simply atoms,
- we are going to get frustrated at times when it acts
- incorrectly.  Maybe we can take an ATP approach to all of this.
- Maybe we can reverse engineer KBFS and/or IAEC from
- DoConvertLogic))
+		     we are going to get frustrated at times when it acts
+		     incorrectly.  Maybe we can take an ATP approach to all of this.
+		     Maybe we can reverse engineer KBFS and/or IAEC from
+		     DoConvertLogic))
 
 (is there any reason to use a hash instead of just the original
  assertion?: yes, because if we change the original assertion
@@ -123,7 +205,7 @@
 (answer
  (how to mark an entry deleted?  do we say:
   updateDirectly(false,h(A,B)) or updateDirectly(h(false,B1)
-  ,h(A,B))?)
+						 ,h(A,B))?)
  (No because that would ruin history for h(false) .  Figure out
   also what happens if there is not a unique history for a given
   mostrecent.))
@@ -131,7 +213,7 @@
 (we should have predicates that take
  depends(hash(1DJSLFKJDLFJLKDKFLDF),hash(3URGJLGKDJGLGDLGKF)). ->
  depends('take out the trash and recyclables and
- returnables','gather the trash').)
+	 returnables','gather the trash').)
 
 (look more at free-life-planner/projects/spse2-export)
 
@@ -154,7 +236,7 @@
  dependencies wouldn't be feasible at this point even with ML,
  given that most task descriptions are underspecified.  Maybe I
  could posit the question doesRelationStillHold(depends('take out
- trash',not('gather trash')),TV), whenever an update takes place,
+							trash',not('gather trash')),TV), whenever an update takes place,
  but that would outsource the burden and create more time sinks.
  maybe I could have a necessary/1 operator that changes to
  possible/1 when a task is updated?  Lastly, maybe I could have a
@@ -165,7 +247,7 @@
  default/defeasible/nonmonotonic.  Perhaps recognizing textual
  entailment (RTE) / natural language inference (NLI) could help,
  by checking whether A2 -> A1 (or is it A2 -> A1, or both?), (or
- A2 is consistent with A1, etc), where we have
+							      A2 is consistent with A1, etc), where we have
  update(h(A1,_),h(A2,_)).  Or some combination of of the above
  measures.  Or maybe something similar to White_Flame's
  suggestion (IIUC), like factoring out the change to A1 and
