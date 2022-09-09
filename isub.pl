@@ -38,16 +38,16 @@ search_terms_best_match(Search,BestMatch) :-
 search_terms_individual_best_match(Search,Entries,[BestMatch,HashOfBestMatch]) :-
 	search_terms_individual(Search,Entries,[[BestMatch]|_]),
 	crypto_data_hash(BestMatch,HashOfBestMatch,[algorithm(md5)]),
-	print_term([hashOfBestMatch,HashOfBestMatch],[]),nl.
+	print_term([search,Search,bestMatch,BestMatch,hashOfBestMatch,HashOfBestMatch],[]),nl.
 
 search_terms_individual(Search,Entries,FinalResults) :-
 	match_nearest_individual_entries(Search,Entries,TmpTmpFinalResults),
-	setof(Item,member(Item,TmpTmpFinalResults),TmpFinalResults),
+	list_to_set(TmpTmpFinalResults,TmpFinalResults),
  	maplist(head_as_list,TmpFinalResults,FinalResults).
 
 search_terms(Search,FinalResults) :-
 	match_nearest_entries(Search,TmpTmpFinalResults),
-	setof(Item,member(Item,TmpTmpFinalResults),TmpFinalResults),
+	list_to_set(TmpTmpFinalResults,TmpFinalResults),
  	maplist(head_as_list,TmpFinalResults,FinalResults).
 
 match_nearest_entries(Search,FinalResults) :-

@@ -1,5 +1,6 @@
-(need to find-or-create the predicate that finds the origin text
- for a given text)
+(completed
+ (need to find-or-create the predicate that finds the
+  origin text for a given text))
 
 (need to make 'make' work with do-convert)
 
@@ -9,6 +10,9 @@
  it goes ahead and adds 'has-NL'('entry-fn'(do,<ID>),<TEXT>) to a
  metadata file somewhere, where Text is the origin text for
  whatever was selected by 'C-cdv.')
+
+(need to have all C-cdpu and C-cdpp saves update the running
+ instance of do-convert)
 
 (("frdcsa-context-type" "SPSE")
  ("depends" ("entry-fn" "pse" <N>) ("entry-fn" "pse" <P>))
@@ -113,10 +117,15 @@
 (there needs to be some kind of audit/integrity check process,
  for when the system (metadata and data) get unsynced)
 
-(note, C-cdv. is not sorting properly
- (couples time tonight)
- [results,[['couples time',0.925],[couples,0.8555555555555556],['couples time tonight',1.0],[couples,0.8555555555555556]]]
- )
+(solution
+ (note, C-cdv. is not sorting properly
+  (couples time tonight)
+  [results,[['couples time',0.925]
+	    ,[couples,0.8555555555555556]
+	    ,['couples time tonight',1.0]
+	    ,[couples,0.8555555555555556]]]
+  )
+ (use list_to_set instead of setof))
 
 (start a new project for reasoning with complex assertions)
 
