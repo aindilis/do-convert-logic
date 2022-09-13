@@ -1,3 +1,19 @@
+(In do-convert-get-id-for-entry-at-point, add the ability for
+ search_terms_individual_best_match to return more than just the
+ id, especially, the entry as converted to prolog, and maybe, a
+ note saying whether entryHasIdFn(entry,id) has already been
+ asserted into metadata, and then use that information to make
+ do-convert-logic-save-entry-id-pair use the prologified version
+ of entry, as opposed to the raw one)
+
+(currently, in order to have do-convert update, we have to C-u
+ C-cdp[pu] for each modified file, then C-cdvS then C-cdvs to
+ build and then load do-convert.  We need to simplify this. Save
+ hooks and or fanotify or something, to ensure we have it up to
+ date.  Make sure it doesn't run the updates too frequently (on
+ large files at least).  And have it use make, and save the QLF
+ from time to time.)
+
 (completed
  (need to find-or-create the predicate that finds the
   origin text for a given text))
